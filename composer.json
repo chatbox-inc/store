@@ -1,0 +1,23 @@
+{
+    "name": "chatbox-inc/token",
+    "authors": [
+        {
+            "name": "mikakane",
+            "email": "mikakane2@gmail.com"
+        }
+    ],
+    "autoload":{
+        "psr-4":{
+            "Chatbox\\Token":"./src"
+        }
+    },
+    "autoload-dev":{
+        "classmap":[
+            "./backend/tests/"
+        ]
+    },
+    "require": {
+    },
+    "scripts":{
+    }
+}
