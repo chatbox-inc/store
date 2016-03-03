@@ -12,6 +12,8 @@ interface TokenServiceInterface
 
     public function load($key):Token;
 
+    public function call($key,callable $callable);
+
     public function keep($key);
 
     public function delete($key);

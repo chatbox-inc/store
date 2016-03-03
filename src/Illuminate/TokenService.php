@@ -16,7 +16,6 @@ use Chatbox\Token\TokenNotFoundException;
 use Chatbox\Token\TokenServiceInterface;
 use Chatbox\Token\TokenServiceTrait;
 use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class TokenService implements TokenServiceInterface
@@ -31,7 +30,7 @@ class TokenService implements TokenServiceInterface
         $now = Carbon::now();
         $this->getTable()->insert([
             "key" => $key,
-            "value" => $value,
+            "value" => base64_encode(serialize($value)),
             "created_at" => $now
         ]);
         return $this->getToken($key,$value,$now);
@@ -41,7 +40,9 @@ class TokenService implements TokenServiceInterface
     {
         $tokenRow = $this->getTable()->where("key",$key)->first();
         if($tokenRow){
-            $token = $this->getToken($tokenRow->key,$tokenRow->value,$tokenRow->created_at);
+            $value = unserialize(base64_decode($tokenRow->value));
+            $createdAt = Carbon::createFromFormat("Y-m-d H:i:s",$tokenRow->created_at);
+            $token = $this->getToken($tokenRow->key,$value,$createdAt);
             if($this->getExpiredAt() > $token->createdAt ){
                 return $token;
             }else{
@@ -51,6 +52,16 @@ class TokenService implements TokenServiceInterface
             throw new TokenNotFoundException;
         }
     }
+
+    public function call($key,callable $callable)
+    {
+        $token = $this->load($key);
+        if($rtn = call_user_func($callable,$token)){
+            $this->delete($key);
+        }
+        return $rtn;
+    }
+
 
     public function keep($key)
     {
@@ -74,7 +85,7 @@ class TokenService implements TokenServiceInterface
     }
 
     protected function getTable():Builder{
-        return DB::table($this->table);
+        return app("db")->connection()->table($this->table);
     }
 
     protected function getKey(){
