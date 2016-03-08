@@ -8,7 +8,7 @@
     ],
     "autoload":{
         "psr-4":{
-            "Chatbox\\Token":"./src"
+            "Chatbox\\Token\\":"./src"
         }
     },
     "autoload-dev":{
