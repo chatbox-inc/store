@@ -43,7 +43,10 @@ class TokenService implements TokenServiceInterface
             $value = unserialize(base64_decode($tokenRow->value));
             $createdAt = Carbon::createFromFormat("Y-m-d H:i:s",$tokenRow->created_at);
             $token = $this->getToken($tokenRow->key,$value,$createdAt);
-            if($this->getExpiredAt() > $token->createdAt ){
+            if(
+                is_null($this->expiredAt) ||
+                $this->getExpiredAt() > $token->createdAt
+            ){
                 return $token;
             }else{
                 throw new TokenExpiredException;
@@ -96,7 +99,7 @@ class TokenService implements TokenServiceInterface
         return new Token($key,$value,$createdAt);
     }
 
-    protected function getExpiredAt(){
+    protected function getExpiredAt():Carbon{
         return Carbon::now()->subSecond($this->expiredAt);
     }
 
