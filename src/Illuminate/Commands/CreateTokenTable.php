@@ -1,5 +1,6 @@
 <?php
 namespace Chatbox\Token\Illuminate\Commands;
+use Chatbox\Token\Illuminate\Schema\Tokens;
 use Illuminate\Console\Command;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,13 +17,7 @@ class CreateTokenTable extends Command
 
     public function handle(){
         $table = $this->argument("table");
-        Schema::create($table,function(Blueprint $blueprint){
-            $blueprint->increments("id");
-            $blueprint->string("key")->unique();
-            $blueprint->text("value");
-            $blueprint->timestamp("created_at");
-
-        });
+        (new Tokens($table))->up();
     }
 
 

@@ -29,6 +29,7 @@ class TokenService implements TokenServiceInterface
         if($table){
             $this->table = $table;
         }
+        assert((bool)$this->table);
     }
 
 
