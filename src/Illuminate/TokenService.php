@@ -24,6 +24,14 @@ class TokenService implements TokenServiceInterface
 
     protected $expiredAt;
 
+    public function __construct($table=null)
+    {
+        if($table){
+            $this->table = $table;
+        }
+    }
+
+
     public function save($value, $key = null):Token
     {
         $key = $key?:$this->getKey();
