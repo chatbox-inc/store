@@ -1,19 +1,29 @@
 # トークン管理アプリケーション
 
-トークンを利用したKeyValueStoreの生成
+データを投げたら、トークンに変換してくれる基本的なロジックに
+インターフェイスを提供する。
 
+## Interface 
 
-````
-$tokenService = app(TokenService::class);
+### TokenServiceInterface::save($value,$key=null)
 
-$token = $tokenService->save($someValue);
-echo $token->key; // farairgarha
+トークンを保存する
 
-$token = $tokenService->load($tokenKey);
-if($token->available()){
-    echo $token->value; // token value
-    $tokenService->delete();
-}
+### TokenServiceInterface::load($key)
 
+トークンを読み込む
 
-````
+### TokenServiceInterface::delete($key)
+
+トークンを削除する
+
+読み込み可能かどうかの判定は行わない。
+
+## Entity
+
+- key: トークン
+- value: 値
+- createdAt: 作成された日時
+
+時刻情報を持つがExpired判定は基本行わない。
+

@@ -8,8 +8,6 @@
 
 namespace Chatbox\Token;
 
-use Carbon\Carbon;
-
 class Token
 {
     public $key;
@@ -24,7 +22,7 @@ class Token
      * @param $value
      * @param $createdAt
      */
-    public function __construct(string $key, $value, Carbon $createdAt = null)
+    public function __construct(string $key, $value, $createdAt = null)
     {
         $this->key = $key;
         $this->value = $value;
