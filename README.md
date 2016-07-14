@@ -1,5 +1,7 @@
 # トークン管理アプリケーション
 
+[![Latest Stable Version](https://poser.pugx.org/phpunit/phpunit/version)](https://packagist.org/packages/chatbox-inc/token)
+
 データを投げたら、トークンに変換してくれる基本的なロジックに
 インターフェイスを提供する。
 
