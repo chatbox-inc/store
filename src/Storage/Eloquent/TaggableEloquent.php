@@ -6,7 +6,7 @@
  * Time: 17:56
  */
 
-namespace Chatbox\Token\Storage;
+namespace Chatbox\Token\Storage\Eloquent;
 
 use Chatbox\Token\Storage\Eloquent\Eloquent;
 use Chatbox\Token\Token;
@@ -17,13 +17,13 @@ class TaggableEloquent extends Eloquent
 {
     protected $tag = "tokentag";
 
-    protected $fillable = ["key","value","tag"];
+    protected $fillable = ["key","value","tag","created_at"];
 
     public function saveToken($value, $key = null):Token
     {
         return $this->_saveToken([
             "key" => $key ?: $this->ramdomKey(),
-            "value" => $value,
+            "value" => $this->serialize($value),
             "tag" => $this->tag
         ]);
     }

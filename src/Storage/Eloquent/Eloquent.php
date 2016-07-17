@@ -8,40 +8,42 @@
 
 namespace Chatbox\Token\Storage\Eloquent;
 
+use Carbon\Carbon;
+use Chatbox\Token\Storage\SerializeTrait;
 use Chatbox\Token\Token;
 use Chatbox\Token\TokenNotFoundException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 use Chatbox\Token\Storage\Migratable;
-use Chatbox\Token\Storage\RamdomKeyTrait;
+use Chatbox\Token\Storage\RandomKeyTrait;
 use Chatbox\Token\Storage\TokenStorageInterface;
 
 class Eloquent extends Model implements TokenStorageInterface,Migratable
 {
-    use RamdomKeyTrait;
+    use RandomKeyTrait;
+    use SerializeTrait;
 
-    protected $table;
-
-    protected $fillable = ["key","value"];
+    protected $fillable = ["key","value","created_at"];
 
     public $timestamps = false;
 
     protected $dates = ["created_at"];
 
     protected function getEntity(Eloquent $eloquent){
-        return new Token($eloquent->key, $eloquent->value, $eloquent->created_at);
+        return new Token($eloquent->key, $this->unserialize($eloquent->value), $eloquent->created_at);
     }
 
     public function saveToken($value, $key = null):Token
     {
         return $this->_saveToken([
             "key" => $key ?: $this->ramdomKey(),
-            "value" => $value
+            "value" => $this->serialize($value)
         ]);
     }
 
     protected function _saveToken($attr){
+        $attr["created_at"] = Carbon::now();
         $model = $this->newInstance($attr);
         $model->save();
         return $this->getEntity($model);

@@ -8,6 +8,8 @@
 
 namespace Chatbox\Token\Storage;
 
+use Chatbox\Token\Token;
+
 interface TokenStorageInterface
 {
     /**

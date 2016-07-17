@@ -13,11 +13,15 @@
     },
     "autoload-dev":{
         "classmap":[
-            "./backend/tests/"
+            "./tests/"
         ]
     },
     "require": {
     },
     "scripts":{
+    },
+    "require-dev": {
+        "laravel/lumen": "^5.2",
+        "phpunit/phpunit": "^5.4"
     }
 }

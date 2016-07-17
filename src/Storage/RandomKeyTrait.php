@@ -8,7 +8,7 @@
 
 namespace Chatbox\Token\Storage;
 
-trait RamdomKeyTrait
+trait RandomKeyTrait
 {
     protected function ramdomKey(){
         $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
