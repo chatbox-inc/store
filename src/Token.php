@@ -8,7 +8,7 @@
 
 namespace Chatbox\Token;
 
-class Token
+class Token implements \JsonSerializable
 {
     public $key;
 
@@ -28,4 +28,11 @@ class Token
         $this->value = $value;
         $this->createdAt = $createdAt;
     }
+
+    function jsonSerialize()
+    {
+        return (array)$this;
+    }
+
+
 }
