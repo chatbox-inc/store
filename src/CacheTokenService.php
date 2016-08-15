@@ -47,7 +47,7 @@ class CacheTokenService implements TokenServiceInterface
 
     public function delete($key)
     {
-        $this->getRepository()->put($key,$value);
+        $this->cache->forget($key);
     }
 
     protected function getEntity($key,$value){
