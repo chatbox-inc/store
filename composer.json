@@ -22,6 +22,10 @@
     "require": {
     },
     "scripts":{
+        "post-update-cmd": [
+            "touch sample/.env",
+            "touch sample/database/database.sqlite"
+        ],
     },
     "require-dev": {
         "laravel/lumen": "^5.2",
