@@ -66,6 +66,8 @@ class SimpleDB implements TokenStorageInterface,Migratable
         $models = $this->table()->where($attr)->get();
 
         if(count($models) === 1){
+            $model = $models[0];
+            $model->created_at = Carbon::createFromFormat("Y-m-d H:i:s",$model->created_at);
             return $this->getEntity($models[0]);
         }else{
             throw new TokenNotFoundException();

@@ -8,6 +8,8 @@
 
 namespace Chatbox\Token;
 
+use Carbon\Carbon;
+
 class Token implements \JsonSerializable
 {
     public $key;
@@ -22,7 +24,7 @@ class Token implements \JsonSerializable
      * @param $value
      * @param $createdAt
      */
-    public function __construct(string $key, $value, $createdAt = null)
+    public function __construct(string $key, $value,Carbon $createdAt = null)
     {
         $this->key = $key;
         $this->value = $value;

@@ -2,8 +2,7 @@
 
 [![Latest Stable Version](https://poser.pugx.org/chatbox-inc/token/version)](https://packagist.org/packages/chatbox-inc/token)
 
-データを投げたら、トークンに変換してくれる基本的なロジックに
-インターフェイスを提供する。
+データを投げたら、トークンに変換してくれる基本的なロジックにインターフェイスを提供するもの。
 
 ## Interface 
 
