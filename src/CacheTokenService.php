@@ -35,7 +35,7 @@ class CacheTokenService implements TokenServiceInterface
         if(!$key){
             $key = $this->ramdomKey();
         }
-        $this->cache->put($key,$value);
+        $this->cache->forever($key,$value);
         return $this->getEntity($key,$value);
     }
 
