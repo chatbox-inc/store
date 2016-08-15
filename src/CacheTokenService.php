@@ -9,6 +9,7 @@
 namespace Chatbox\Token;
 
 
+use Carbon\Carbon;
 use Chatbox\Token\Storage\RandomKeyTrait;
 use Illuminate\Cache\CacheManager;
 use Illuminate\Contracts\Cache\Repository;
@@ -19,32 +20,38 @@ class CacheTokenService implements TokenServiceInterface
     use RandomKeyTrait;
 
     protected $cache;
+    protected $token;
 
-    public function __construct(CacheManager $cacheManager)
+    public function __construct(Repository $cache=null,$prefix="token")
     {
-        $this->cache = $cacheManager;
-    }
-
-    /**
-     * @return Repository
-     */
-    protected function getRepository(){
-        return $this->cache->store(null);
+        if($cache === null){
+            $cache = app("cache")->store();
+        }
+        $this->cache = $cache;
     }
 
     public function save($value, $key = null):Token
     {
-        $this->getRepository()->put($key,$value);
+        $this->cache->put($key,$value);
+        return $this->getEntity($key,$value);
     }
 
     public function load($key):Token
     {
-        $this->getRepository()->get($key,$value);
+        if($value = $this->cache->get($key,null)){
+            return $this->getEntity($key,$value);
+        }else{
+            throw new TokenNotFoundException;
+        }
     }
 
     public function delete($key)
     {
         $this->getRepository()->put($key,$value);
+    }
+
+    protected function getEntity($key,$value){
+        return new Token($key,$value,Carbon::now());
     }
 
 
